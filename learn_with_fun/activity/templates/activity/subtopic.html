@@ -1,0 +1,69 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<style>
+    .shadowbox {
+        color: rgb(0, 0, 0);
+        width: 100%;
+        border: 1px solid rgb(223, 170, 170);
+        box-shadow: 8px 8px 5px rgb(230, 201, 199);
+        padding: 8px 12px;
+        background-image: linear-gradient(180deg, rgb(245, 218, 214), rgb(230, 196, 180) 40%, #d8a895);
+    }
+</style>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'activity:subjects'%}">Home</a></li>
+        <li class="breadcrumb-item"><a
+                href="{% url 'activity:subjecttopics' subject.s_subject_id %}">{{ subject.s_subject_name}}</a>
+        </li>
+        <li class="breadcrumb-item"><a
+                href="{% url 'activity:topicssubtopics' topic.t_topic_id %}">{{ topic.t_topic_name}}</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{ subtopic.st_subtopic_name}}</li>
+    </ol>
+</nav>
+
+
+<br />
+<br />
+<h1 class="display-4 text-center">{{ subtopic.st_subtopic_name }}</h1>
+{% if subtopic.st_subtopic_name == 'CSS' %}
+{% include 'contents/CSS.html' %}
+{% elif subtopic.st_subtopic_name == 'HTML' %}
+{% include 'contents/HTML.html' %}
+{% elif subtopic.st_subtopic_name == 'Number Types - Grade 3' %}
+{% include 'contents/Number Types - Grade 3.html' %}
+{% elif subtopic.st_subtopic_name == 'Number Types - Grade 2' %}
+{% include 'contents/Number Types - Grade 2.html' %}
+{% elif subtopic.st_subtopic_name == 'Number Types - Grade 1' %}
+{% include 'contents/Number Types - Grade 1.html' %}
+{% endif %}
+{% if quizzes %}
+<div class="shadowbox">
+    <div class="row">
+        <div class="col-3">
+            <p style="font-size: xx-large;">Quiz Time</p>
+        </div>
+        <div class="col-9">
+            <br />
+            <br />
+           {% for quiz in quizzes  %}
+
+           <a style="color:rgb(0, 0, 0);" href="{% url 'activity:quiz' quiz.q_quiz_id %}">
+               <p style="font-size: x-large;">&#127775;  {{ quiz.q_quiz_name }}</p>
+           </a><br />
+           {% endfor %}
+        </div>
+
+    </div>
+    
+</div>
+{% endif %}
+
+
+
+<br />
+<br />
+
+{% endblock %}

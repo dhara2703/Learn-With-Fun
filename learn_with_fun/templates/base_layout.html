@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS Library import -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Bootstrap JS Library import -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- CSS File import -->
+    <link rel="stylesheet" href="{% static '/styles.css' %}">
+
+    <!-- Google Fonts import -->
+
+    <title>Learn With Fun</title>
+</head>
+
+<body>
+    <style>
+        /* Stackoverflow preview fix, please ignore */
+        .navbar-nav {
+            flex-direction: row;
+        }
+
+        .nav-link {
+            padding-right: .5rem !important;
+            padding-left: .5rem !important;
+        }
+
+        /* Fixes dropdown menus placed on the right side */
+        .ml-auto .dropdown-menu {
+            left: auto !important;
+            right: 0px;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <a class="navbar-brand text-light" href="{% url 'activity:subjects' %}"><img src="{% static '/logo.png' %}"
+                alt="Learn With Fun" class="brand_img" height="50" width="60">Learn With Fun</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Brand -->
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="{% url 'activity:activities' %}" id="navbardrop"
+                    data-toggle="dropdown">
+                    Subjects
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'activity:subjects'  %}">Math</a>
+                    <a class="dropdown-item" href="{% url 'activity:subjects' %}">Science</a>
+                    <a class="dropdown-item" href="{% url 'activity:subjects' %}">Programming</a>
+                </div>
+            </li>
+           
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link text-light" href="#">
+                    Report
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" id="navbardrop" data-toggle="dropdown">
+                    Hi {{ user.first_name }}
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Your Profile</a>
+                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Edit Profile</a>
+                    <a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a>
+                </div>
+            </li>
+            <form class='form-inline text-light' action="{% url 'accounts:accountLogout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn text-light" type=" submit">Logout</button>
+            </form>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'accounts:accountLogin' %}">
+                    Login
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main role="main" class="container-fluid" style="padding-top: 40px;">
+        {% block content %}
+        {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        max-height: 800px;
+        margin: auto;
+        text-align: center;
+    }
+
+    .title {
+        color: grey;
+    }
+</style>
+<!--https://bootsnipp.com/snippets/a6nml -->
+    <h1 class="text-center" style="color: rgb(51, 25, 35);">My Profile</h1>
+<div class="container">
+    <br /><br />
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-3" style="background-color:rgb(61, 79, 117);">
+            <br />
+            <img class="mx-auto d-block" src="{% static '/logo.png' %}" alt="Learn With Fun"><br />
+        </div>
+        <div class="col-md-5" style="background-color:rgb(241, 230, 230);">
+            <div class="card" style="background-color:rgb(11, 8, 49);">
+                <h1 class="title text-center">{{currentuser.first_name }}
+                    {{currentuser.last_name }}</h1>
+                <br /><br />
+                <br /><br />
+                <br /><br />
+                <p class="title h3">Email Address: {{currentuser.email }}</p><br />
+                <br /><br />
+                <p class="title h3">Username: {{currentuser.username }}</p><br />
+                <p class="title h4">Address: {{studentinfo.s_student_city }}, {{studentinfo.s_student_province }},
+                    {{studentinfo.s_student_country }}
+                    <br /><br />
+                </p>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+
+    </div>
+</div>
+           
+
+
+{% endblock %}

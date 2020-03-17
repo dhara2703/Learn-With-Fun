@@ -1,0 +1,100 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var buttons = document.querySelectorAll('#panel');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].onclick = function () {
+                var a = this.getAttribute('data-index');
+                $(a.slideToggle());
+            };
+        };
+    });
+</script>
+<style>
+    #panel,
+    #flip {
+        padding: 5px;
+        text-align: center;
+        background-color: #ffffff;
+        border: solid 1px #ffffff;
+    }
+
+    #panel {
+        padding: 5px;
+        display: none;
+    }
+</style>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'activity:subjects'%}">Home</a></li>
+        <li class="breadcrumb-item"><a
+                href="{% url 'activity:subjecttopics' subject.s_subject_id %}">{{ subject.s_subject_name}}</a>
+        </li>
+        <li class="breadcrumb-item"><a
+                href="{% url 'activity:topicssubtopics' topic.t_topic_id %}">{{ topic.t_topic_name}}</a>
+        </li>
+        <li class="breadcrumb-item"><a
+                href="{% url 'activity:subtopic' subtopic.st_subtopic_id %}">{{ subtopic.st_subtopic_name}}</a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">{{ quiz.q_quiz_name}} </li>
+    </ol>
+</nav>
+
+<h1 class="h1 text-center" style="color: #1a5280;">{{ quiz.q_quiz_name }}</h1>
+<form action="{% url 'activity:quiz' quizid=quiz.q_quiz_id %}" method="post" id="quiz">
+    {% csrf_token %}
+    <br />
+    <ol>
+        {% if questions %}
+        {% for question in questions %}
+        <li style="font-size:x-large;font-weight: 1300;color: darkblue;">
+            {{ question.q_question_text }}
+            <ol type="A">
+                {% for answer in answers%}
+                {% if answer.a_answer_question_id == question %}
+                <li>
+                    <div>
+                        <input type="radio" name="" id="question-1-answers" />
+                        <label for="question-1-answers">{{ answer.a_answer_text }} </label>
+                    </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ol>
+
+            <div id="flip">
+                <button type="submit" name="idea" class='btn'
+                    style="color:white;background-color: #d16645;border-color: #d4461b;">Hint</button>
+            </div>
+            <div id="panel" data-index="{{ question.q_question_id }}" style="color: #1a5280;">
+                {{ question.q_question_hint }}</div>
+        </li>
+        <br />
+        {% endfor %}
+    </ol>
+    <div class="row" style="display: flex; justify-content: center;">
+        <input type="submit" name="Submit" class='btn btn-lg'
+            style="color:white;background-color: #1c5d88;border-color: #1a5280;">
+    </div>
+    {% else %}
+    <br />
+    <br />
+    <br />
+    <br />
+    <p class="text-center display-4" style="color: #1a5280;">Quiz Questions Coming Soon...</p>
+    {% endif %}
+
+</form>
+<br />
+<br />
+
+{% endblock %}
+
+
+<!-- https://www.geeksforgeeks.org/jquery-effect-show-method/ -->

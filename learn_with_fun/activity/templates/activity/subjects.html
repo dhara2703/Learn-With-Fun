@@ -1,0 +1,93 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+
+<style>
+    :root {
+        --jumbotron-padding-y: 3rem;
+    }
+
+    .jumbotron {
+        padding-top: var(--jumbotron-padding-y);
+        padding-bottom: var(--jumbotron-padding-y);
+        margin-bottom: 0;
+        background-color: #fff;
+    }
+
+    @media (min-width: 768px) {
+        .jumbotron {
+            padding-top: calc(var(--jumbotron-padding-y) * 2);
+            padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+        }
+    }
+
+    .jumbotron p:last-child {
+        margin-bottom: 0;
+    }
+
+    .jumbotron-heading {
+        font-weight: 300;
+    }
+
+    .jumbotron .container {
+        max-width: 40rem;
+    }
+
+    footer {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    footer p {
+        margin-bottom: .25rem;
+    }
+
+    .box-shadow {
+        box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    }
+</style>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'activity:subjects'%}">Home</a></li>
+    </ol>
+</nav>
+<main role="main">
+    <section class="text-center">
+        <h1 class="display-2" style="color: navy;">Learn With Fun</h1>
+        <p class="lead text-muted">Explore these subjects and gain knowledge</p>
+    </section>
+
+    <div class="row">
+        <div class="col-9"></div>
+        <input class="btn col-3 float-right" oninput="w3.filterHTML('#subject', '.item', this.value)"
+            placeholder="Search Here" style="float:left;border-color: mediumaquamarine;">
+        <div class="col-2"></div>
+    </div>
+    <div class="album py-5 bg-light">
+        <div id="subject" class="row">
+            {% for subject in subjects %}
+            {% if subject.s_subject_isactive %}
+            <div class="item col-md-4">
+                <a href="{% url 'activity:subjecttopics' subject.s_subject_id %}">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="{{ subject.s_subject_image.url }}" width="100px" height="225px"
+                        alt="{{ subject.s_subject_name }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                {{ subject.s_subject_name }} - View Topics
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </a>
+        
+    </div>
+</div>
+</main>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'activity:subjects'%}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ subject.s_subject_name }}</li>
+    </ol>
+</nav>
+<div class="col-12">
+    <input class="btn col-3 float-right" oninput="w3.filterHTML('#topic', '.item', this.value)"
+        placeholder="Search Here" style="float:left;border-color: mediumaquamarine;">
+</div>
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-4">
+        <div class="container-fluid">
+            <img class="card-img-top" src="{{ subject.s_subject_image.url }}" width="200px" height="325px"
+                alt="{{ subject.s_subject_name }}">
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="container-fluid">
+            <div class="row" id="topic">
+                <div class="col-md-12 col-lg-12">
+                    <ul style="color: rgb(3, 35, 141);font-size: xx-large;">
+                        {% if topics %}
+                        {% for topic in topics %}
+                        <div>
+                            <div class="item col-md-12" style="background-color: rgb(217, 241, 222);">
+                                &#8594;
+                                <a class="view" style="color: rgb(3, 35, 141);padding:10px;font-size: x-large;"
+                                    title="View" data-toggle="tooltip"
+                                    href="{% url 'activity:topicssubtopics' topic.t_topic_id %}">
+                                    {{ topic.t_topic_name }}</a>
+                            </div>
+                            <br />
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p class="text-center display-4" style="color: #1a5280;">Coming Soon...</p>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <small class="text-muted">9 mins</small> -->
+</main>
+{% endblock %}

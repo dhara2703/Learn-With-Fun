@@ -1,0 +1,51 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'activity:subjects'%}">Home</a></li>
+        <li class="breadcrumb-item"><a
+                href="{% url 'activity:subjecttopics' subject.s_subject_id %}">{{ subject.s_subject_name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ topic.t_topic_name}}</li>
+    </ol>
+</nav>
+
+<main role="main">
+    <section class="text-center">
+        <h2 style="color: navy;">{{ topic.t_topic_name}}</h2>
+    </section>
+
+    <div class="row">
+        <div class="col-9"></div>
+        <input class="btn col-3 float-right" oninput="w3.filterHTML('#subtopic', '.item', this.value)"
+            placeholder="Search Here" style="float:left;border-color: mediumaquamarine;">
+        <div class="col-2"></div>
+    </div>
+    <br />
+    <br />
+    <div id="subtopic">
+        {% if subtopics %}
+        {% for subtopic in subtopics %}
+        <a class="float-left" style="background-color:rgb(238, 243, 236);color: rgb(18, 25, 32);font-size: x-large;"
+            href="{% url 'activity:subtopic' subtopic.st_subtopic_id %}">
+            <div class="item card text-center btn btn-outline-info" style="background-color:rgb(238, 243, 236);">
+                <div class="item card-header btn-outline-info"
+                    style="background-color:rgb(238, 243, 236);border: none;">
+                    <p style="color: rgb(25, 28, 31);">{{ subtopic.st_subtopic_name }}</p>
+                    <a class="float-right btn btn-outline-success"
+                        href=" {% url 'activity:subtopic' subtopic.st_subtopic_id %}"
+                        style="color:rgb(10, 22, 26);font-size: x-large; border:none">Learn more</a>
+                </div>
+            </div>
+        </a>
+    </div>
+    <br />
+    {% endfor %}
+    {% else %}
+    <p class="text-center display-4" style="color: #1a5280;">Coming Soon...</p>
+    {% endif %}
+
+</main>
+{% endblock %}
