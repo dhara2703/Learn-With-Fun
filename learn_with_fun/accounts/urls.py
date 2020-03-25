@@ -12,6 +12,8 @@ urlpatterns = [
     re_path(r'^login/$', views.accounts_login, name="accountLogin"),
     re_path(r'^logout/$', views.accounts_logout, name="accountLogout"),
     re_path(r'^signup/$', views.account_create, name="accountSignup"),
+    re_path(r'^changeprofile/$', views.user_profile_update,
+            name="updateProfile"),
     re_path(r'^myprofile/$', views.user_profile, name="profile"),
 
 

@@ -2,17 +2,10 @@
 
 {% block content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 <script>
-    $(document).ready(function () {
-        var buttons = document.querySelectorAll('#panel');
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].onclick = function () {
-                var a = this.getAttribute('data-index');
-                $(a.slideToggle());
-            };
-        };
-    });
+    setTimeout(function () {
+        $('#message').fadeOut('slow');
+    }, 3000);
 </script>
 <style>
     #panel,
@@ -47,6 +40,7 @@
 </nav>
 
 <h1 class="h1 text-center" style="color: #1a5280;">{{ quiz.q_quiz_name }}</h1>
+{% include 'partials/_alerts.html' %}
 <form action="{% url 'activity:quiz' quizid=quiz.q_quiz_id %}" method="post" id="quiz">
     {% csrf_token %}
     <br />
@@ -60,20 +54,23 @@
                 {% if answer.a_answer_question_id == question %}
                 <li>
                     <div>
-                        <input type="radio" name="" id="question-1-answers" />
-                        <label for="question-1-answers">{{ answer.a_answer_text }} </label>
+                        <input type="radio" id="answer_{{ answer.a_answer_id }}" name="answer_{{question.q_question_id }}" />
+                        <label for="answer_{{ answer.a_answer_id }}">{{forloop.counter}}. {{ answer.a_answer_text }}
+                        </label>
                     </div>
                 </li>
                 {% endif %}
                 {% endfor %}
             </ol>
-
             <div id="flip">
-                <button type="submit" name="idea" class='btn'
-                    style="color:white;background-color: #d16645;border-color: #d4461b;">Hint</button>
+                <button type="submit" onmouseover="this.innerHTML='{{ question.q_question_hint }}'" class="btn"
+                    style="color:white;background-color: #d16645;border-color: #d4461b;">
+                    Hint
+                </button>
             </div>
-            <div id="panel" data-index="{{ question.q_question_id }}" style="color: #1a5280;">
-                {{ question.q_question_hint }}</div>
+            <span id="panel" style="color: #1a5280;">
+                {{ question.q_question_hint }}</span>
+
         </li>
         <br />
         {% endfor %}

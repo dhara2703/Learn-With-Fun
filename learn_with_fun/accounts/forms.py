@@ -41,9 +41,12 @@ class UserAccountCreationForm(UserCreationForm):
 
 
 class UserAccountUpdateForm(forms.ModelForm):
-    email = forms.EmailField(required=True)
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=150)
+    email = forms.EmailField(
+        required=True, widget=forms.TextInput(attrs={'size': '40'}))
+    first_name = forms.CharField(
+        max_length=30, widget=forms.TextInput(attrs={'size': '40'}))
+    last_name = forms.CharField(
+        max_length=150, widget=forms.TextInput(attrs={'size': '40'}))
 
     class Meta:
         model = User
@@ -75,3 +78,5 @@ class StudentChangeForm(forms.ModelForm):
         model = Student
         fields = ('s_student_city', 's_student_province',
                   's_student_country')
+    
+  

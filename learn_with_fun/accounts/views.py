@@ -12,6 +12,7 @@ from django.apps import apps
 from .import forms
 
 
+
 # Login View
 def accounts_login(request):
     # If user is already logged in then redirect to the main page
@@ -38,7 +39,7 @@ def accounts_login(request):
 
             
 # Logout View
-@login_required
+@login_required(login_url="/accounts/login/")
 def accounts_logout(request):
 	if request.method == 'POST':
 		logout(request)
@@ -95,12 +96,72 @@ def user_profile(request):
     # currentuser = request.id
     # print(currentuser)
     # print("Hello")
-    currentuser = request.user
-    print(request.user)
-    if Student.objects.get(s_student_user_id=currentuser.id):
-        studentinfo = studentinfo = Student.objects.get(s_student_user_id=currentuser.id)
-        print(studentinfo.s_student_province)
-        return render(request, 'accounts/user_profile.html', {'currentuser': currentuser, 'studentinfo':studentinfo})
-    else:
-        message = "There is no profile exist."
-        return render(request, 'accounts/user_profile.html', {'currentuser': currentuser, 'message': message})
+    # currentuser = request.user
+    # print(request.user)
+    # if Student.objects.get(s_student_user_id=currentuser.id):
+    #     studentinfo = studentinfo = Student.objects.get(s_student_user_id=currentuser.id)
+    #     print(studentinfo.s_student_province)
+    #     return render(request, 'accounts/user_profile.html', {'currentuser': currentuser, 'studentinfo':studentinfo})
+    # else:
+    #     message = "There is no profile exist."
+    #     return render(request, 'accounts/user_profile.html', {'currentuser': currentuser, 'message': message})
+    user = User.objects.get(id=request.user.id)
+    print(user.username)
+    try:
+        student = Student.objects.get(s_student_user_id=user.id)
+        print(student.s_student_id)
+    except:
+        return render(request, 'accounts/user_profile.html', {'user':user})
+    return render(request, 'accounts/user_profile.html', {'user':user, 'student':student})
+
+
+@login_required(login_url="/accounts/login/")
+def user_profile_update(request):
+    user = User.objects.get(id=request.user.id)
+    print(user.username)
+    try:
+        student = Student.objects.get(s_student_user_id=user.id)
+        print(student.s_student_id)
+        if request.method == 'POST':
+            userform = forms.UserAccountUpdateForm(
+                request.POST or None, instance=user)
+            studentform = forms.StudentChangeForm(
+                request.POST or None, instance=student)
+            if (userform.is_valid() and studentform.is_valid()):
+                userform.save()
+                studentform.save()
+                messages.info(
+                    request, "Your Student Profile is Successfully Updated")
+                return redirect('accounts:myprofile')
+        else:
+            data = {
+                        'email': user.email,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                    }
+            data1 = {
+                        'student_city': student.s_student_city,
+                        's_student_province': student.s_student_province,
+                        's_student_country': student.s_student_country, 
+                    }
+            userform = forms.UserAccountUpdateForm(initial=data)
+            studentform = forms.StudentChangeForm(initial=data1)
+        return render(request, 'accounts/account_create.html', {'userform': userform, 'studentform': studentform})
+    except:
+        print(user.username)
+        if request.method == 'POST':
+            userform = forms.UserAccountUpdateForm(
+                request.POST or None, instance=user)
+            if (userform.is_valid()):
+                userform.save()
+                messages.info(
+                    request, "Your User Profile is Successfully Updated.")
+                return redirect('accounts:myprofile')
+        else:
+            data = {
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+            }
+            userform = forms.UserAccountUpdateForm()
+        return render(request, 'accounts/account_create.html', {'userform': userform})

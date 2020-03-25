@@ -154,7 +154,6 @@ class Question(models.Model):
     def __str__(self):
         return self.q_question_text
 
-
 class Answer(models.Model):
     class Meta:
         db_table = 'tblAnswer'
@@ -167,9 +166,12 @@ class Answer(models.Model):
         primary_key=True, verbose_name='answer id')
     a_answer_question_id = models.ForeignKey(
         'Question', on_delete=models.PROTECT, verbose_name='question')
-    a_answer_text = models.CharField(max_length=250, verbose_name='answer text')
-    a_answer_iscorrect = models.BooleanField(default=False, verbose_name='is correct answer')
-    a_answer_isactive = models.BooleanField(default=True, verbose_name='is answer active')
+    a_answer_text = models.CharField(
+        max_length=250, verbose_name='answer text')
+    a_answer_iscorrect = models.BooleanField(
+        default=False, verbose_name='is correct answer')
+    a_answer_isactive = models.BooleanField(
+        default=True, verbose_name='is answer active')
 
     def __str__(self):
         return self.a_answer_text

@@ -1,5 +1,12 @@
 from django.shortcuts import render
 from .models import Subject, Grade, Topic, SubTopic, QuestionType, Quiz, Question, Answer
+from django.apps import apps
+from django.contrib import messages
+import datetime
+
+Student = apps.get_model('accounts', 'Student')
+StudentResponse = apps.get_model('accounts', 'StudentResponse')
+
 
 # Create your views here.
 def index(request):
@@ -42,16 +49,35 @@ def subtopic(request, subtopicid):
 
 def quiz(request, quizid):
     quiz = Quiz.objects.get(q_quiz_id=quizid)
-    print(quiz)
     questions = Question.objects.filter(q_question_quiz_id=quizid)
-    print(questions)
-    allanswers = Answer.objects.all()
-    print(questions)
+    allanswers = []
+    for question in questions:
+        allanswers += Answer.objects.filter(a_answer_question_id=question.q_question_id)
+    # allanswers = Answer.objects.all()
     subtopic = SubTopic.objects.get(st_subtopic_name=quiz.q_quiz_subtopic_id)
-    print(subtopic)
     topic = Topic.objects.get(t_topic_name=subtopic.st_subtopic_topic_id)
-    print(topic)
     subject = Subject.objects.get(s_subject_name=topic.t_topic_subject_id)
-    print(subject)
-    
+    student = Student.objects.get(s_student_user_id=request.user.id)
+    print(student)
+
+    if request.method == 'POST':
+        print(request)
+        for question in questions:
+            q = 1
+            # print("Que " + str(q) + " " + str(question) + "/n")
+            answers = Answer.objects.filter(a_answer_question_id=question.q_question_id)
+            for answer in answers:
+                a = 1
+                # print("Answer " + str(a) + " " + str(answer) + "/n")
+                student_response = StudentResponse()
+                StudentResponse.sr_studentresponse_student_id_id = request.user.id
+                # print(StudentResponse.sr_studentresponse_student_id_id)
+                StudentResponse.sr_studentresponse_created_on = datetime.datetime.now()
+                # print(StudentResponse.sr_studentresponse_created_on)
+                selected_answer = request.POST.get("answer_{{question.q_question_id }}", None)
+                print(selected_answer)
+                StudentResponse.sr_studentresponse_score = 1
+                # StudentResponse.sr_studentresponse_answer_id_id = request.POST.get[
+                #     'select_{{question.q_question_id }}']
+                        
     return render(request, 'activity/quiz.html', {'quiz': quiz, 'questions': questions, 'answers': allanswers, 'subtopic': subtopic, 'topic': topic, 'subject': subject})

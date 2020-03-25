@@ -4,9 +4,6 @@ import datetime
 from django.utils import timezone
 from django.utils.timezone import now
 
-
-
-
 # Create your models here.
 
 
@@ -71,9 +68,29 @@ class Student(models.Model):
     s_student_country = models.ForeignKey(
         'Country', blank=True, null=True, on_delete=models.PROTECT, verbose_name='student country')
     s_student_isactive = models.BooleanField(default=True, verbose_name= 'is student active')
-    s_account_created = models.DateField(default=datetime.date.today, auto_now=False, auto_now_add=False, verbose_name='student account creted on')
+    s_account_created = models.DateField(default=datetime.date.today, auto_now=False, auto_now_add=False, verbose_name='student account created on')
     s_account_updated_on = models.DateTimeField(default=now, verbose_name='student account updated on')
     
     def __str__(self):
         return self.s_student_user_id.first_name
   
+
+class StudentResponse(models.Model):
+    class Meta:
+        db_table = 'tblStudentResponse'
+        verbose_name = 'Student Response'
+        verbose_name_plural = 'Student Responses'
+
+    sr_studentresponse_id = models.AutoField(primary_key=True, verbose_name='student response id')
+    sr_studentresponse_student_id = models.ForeignKey(
+        'Student', on_delete=models.PROTECT, verbose_name='student')
+    sr_studentresponse_answer_id = models.ForeignKey(
+        'activity.Answer', on_delete=models.PROTECT, verbose_name='given answer')
+    sr_studentresponse_score = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, verbose_name='student answer score')
+    sr_studentresponse_created_on = models.DateField(
+        default=datetime.date.today, auto_now=False, auto_now_add=False, verbose_name='student response created on')
+
+    def __str__(self):
+        return str(self.sr_studentresponse_id)
+
