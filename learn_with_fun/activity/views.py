@@ -63,21 +63,19 @@ def quiz(request, quizid):
     if request.method == 'POST':
         print(request)
         for question in questions:
-            q = 1
-            # print("Que " + str(q) + " " + str(question) + "/n")
-            answers = Answer.objects.filter(a_answer_question_id=question.q_question_id)
-            for answer in answers:
-                a = 1
-                # print("Answer " + str(a) + " " + str(answer) + "/n")
-                student_response = StudentResponse()
-                StudentResponse.sr_studentresponse_student_id_id = request.user.id
-                # print(StudentResponse.sr_studentresponse_student_id_id)
-                StudentResponse.sr_studentresponse_created_on = datetime.datetime.now()
-                # print(StudentResponse.sr_studentresponse_created_on)
-                selected_answer = request.POST.get("answer_{{question.q_question_id }}", None)
-                print(selected_answer)
-                StudentResponse.sr_studentresponse_score = 1
-                # StudentResponse.sr_studentresponse_answer_id_id = request.POST.get[
-                #     'select_{{question.q_question_id }}']
-                        
+            responseArray = []
+            student_answer = []
+            questionid = Question.objects.get(q_question_id= question.getid())
+            a = request.POST.get('response_' + question.getid())
+            print(a)
+            print("Hello")
+            print(questionid)
+            questionResponse = {
+                "questionid":questionid.getid(),
+                "answer":a}
+            student_answer.append(request.POST.get(question.getid()))
+            responseArray.append(questionResponse)
+            print("hello")
+            print(responseArray)
+
     return render(request, 'activity/quiz.html', {'quiz': quiz, 'questions': questions, 'answers': allanswers, 'subtopic': subtopic, 'topic': topic, 'subject': subject})

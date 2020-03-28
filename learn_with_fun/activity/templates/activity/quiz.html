@@ -6,6 +6,20 @@
     setTimeout(function () {
         $('#message').fadeOut('slow');
     }, 3000);
+
+    // Check the radio button value.
+    function CheckIfSelected(valueobject, q)
+    {
+        console.log("The button is clicked or radio", valueobject);
+        var a = "{{ question.getansid }}";
+        console.log("tHE question.getansid is  ", a);
+        console.log("tHE QUIZ ID IS ", q);
+        document.getElementById('user_answer_'.concat(q)).value = valueobject;
+
+
+        // store in database for this question and this user and this answer id
+        // call api using httpxartti( answerdid, questiondi, userdd)
+    }
 </script>
 <style>
     #panel,
@@ -48,19 +62,21 @@
         {% if questions %}
         {% for question in questions %}
         <li style="font-size:x-large;font-weight: 1300;color: darkblue;">
-            {{ question.q_question_text }}
+             {{ question.q_question_text }}
             <ol type="A">
                 {% for answer in answers%}
                 {% if answer.a_answer_question_id == question %}
                 <li>
                     <div>
-                        <input type="radio" id="answer_{{ answer.a_answer_id }}" name="answer_{{question.q_question_id }}" />
-                        <label for="answer_{{ answer.a_answer_id }}">{{forloop.counter}}. {{ answer.a_answer_text }}
+                        <input type="radio" id="{{ answer.a_answer_id }}"
+                            name="ans_{{ question.q_question_id  }}" onchange="CheckIfSelected(this.id, '{{ question.q_question_id }}');"/>
+                        <label for="answer_{{ answer.a_answer_id }}">{{ answer.a_answer_text }}
                         </label>
                     </div>
-                </li>
+                   </li>
                 {% endif %}
                 {% endfor %}
+                <input type="text" id="user_answer_{{ question.q_question_id }}" name="response_{{ question.q_question_id }}" value=""><br><br>
             </ol>
             <div id="flip">
                 <button type="submit" onmouseover="this.innerHTML='{{ question.q_question_hint }}'" class="btn"
@@ -68,8 +84,10 @@
                     Hint
                 </button>
             </div>
-            <span id="panel" style="color: #1a5280;">
+            <span id="panel" style="coltuedentRor: #1a5280;">
+      
                 {{ question.q_question_hint }}</span>
+            
 
         </li>
         <br />

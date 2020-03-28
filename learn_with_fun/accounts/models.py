@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
 from django.utils.timezone import now
+from jsonfield import JSONField
 
 # Create your models here.
 
@@ -73,6 +74,9 @@ class Student(models.Model):
     
     def __str__(self):
         return self.s_student_user_id.first_name
+
+    def getId(self):return str(self.s_student_id)
+
   
 
 class StudentResponse(models.Model):
@@ -82,15 +86,40 @@ class StudentResponse(models.Model):
         verbose_name_plural = 'Student Responses'
 
     sr_studentresponse_id = models.AutoField(primary_key=True, verbose_name='student response id')
-    sr_studentresponse_student_id = models.ForeignKey(
-        'Student', on_delete=models.PROTECT, verbose_name='student')
-    sr_studentresponse_answer_id = models.ForeignKey(
-        'activity.Answer', on_delete=models.PROTECT, verbose_name='given answer')
+    sr_studentresponse_student_id = models.ForeignKey('Student', on_delete=models.PROTECT, verbose_name='student')
+    sr_studentresponse_quiz_id = models.ForeignKey('activity.Quiz', default=1, on_delete=models.PROTECT, verbose_name='Quiz')
+    sr_studentresponse_que_ans = JSONField(max_length=1000, null=True, verbose_name='Student Response Question And Answer')
     sr_studentresponse_score = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, verbose_name='student answer score')
-    sr_studentresponse_created_on = models.DateField(
-        default=datetime.date.today, auto_now=False, auto_now_add=False, verbose_name='student response created on')
+    sr_studentresponse_created_on = models.DateTimeField(auto_now_add= True, verbose_name='student response created on')
 
     def __str__(self):
         return str(self.sr_studentresponse_id)
+
+
+    def save(self, *args, **kwargs):
+        self.sr_studentresponse_created_on = timezone.now()
+        return super(StudentResponse, self).save(*args, **kwargs)
+
+    def getanswer(self):
+        responsejson = self.sr_studentresponse_que_ans
+        response = json.loads(responsejson)
+
+        answer = []
+        
+        for answer in response:
+            answer.append(answer["answer"])
+        
+        return answer
+
+    def getquestionid(self):
+        responsejson = self.sr_studentresponse_que_ans
+        response = json.loads(responsejson)
+
+        questionid = []
+
+        for question in response:
+            questionid.append(question["questionid"])
+
+        return questionid
 

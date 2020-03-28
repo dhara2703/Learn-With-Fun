@@ -154,6 +154,13 @@ class Question(models.Model):
     def __str__(self):
         return self.q_question_text
 
+    def getid(self):
+        return str(self.q_question_id)
+
+    def getansid(self):
+        return str("0")
+
+
 class Answer(models.Model):
     class Meta:
         db_table = 'tblAnswer'
@@ -175,3 +182,6 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.a_answer_text
+
+    def getans(self):
+        return str(self.a_answer_id)
