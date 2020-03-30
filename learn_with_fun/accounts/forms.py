@@ -53,11 +53,6 @@ class UserAccountUpdateForm(forms.ModelForm):
         fields = ('email', 'first_name', 'last_name')
 
 
-'''
-Applicant Form
-'''
-
-
 class StudentCreationForm(forms.ModelForm):
 
     class Meta:

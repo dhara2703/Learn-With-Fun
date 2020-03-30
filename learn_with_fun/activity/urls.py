@@ -11,8 +11,9 @@ urlpatterns = [
     re_path(r'^subtopic/(?P<subtopicid>[\w-]+)$',
             views.subtopic, name='subtopic'),
     re_path(r'^quiz/(?P<quizid>[\w-]+)$', views.quiz, name='quiz'),
-    
+    re_path(r'^result/(?P<studentresponse>[\w-]+)$', views.result, name='result'),
 
+    path('report/', views.report, name='report'),
 
 ]
 

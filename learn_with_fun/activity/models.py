@@ -184,4 +184,7 @@ class Answer(models.Model):
         return self.a_answer_text
 
     def getans(self):
-        return str(self.a_answer_id)
+        if self.a_answer_iscorrect:
+            return str(self.a_answer_id)
+    
+   

@@ -1,0 +1,111 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    setTimeout(function () {
+        $('#message').fadeOut('slow');
+    }, 3000);
+    b = "{{ student_response.sr_studentresponse_score}}"
+    var responses = "{{ student_response.sr_studentresponse_que_ans}}"
+
+    $(document).ready(function () {
+        console.log(b);
+        console.log(responses);
+        console.log(responses.length);
+    });
+
+
+</script>
+
+
+<main role="main">
+    <section class="text-center">
+        <span style="color: navy;font-size: xx-large;">{{ student_response.sr_studentresponse_student_id}}, Grade for
+            {{ quiz.q_quiz_name}}</span>
+    </section>
+    <br />
+    <div style="display: none;">
+
+    </div>
+    <div class="container">
+                        <br /><br />
+                        <br />
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col order-last">
+                        <i class="fa fa-line-chart" style="font-size:42px;color:rgb(216, 76, 33)">
+                            <span style="font-size:xx-large;color: rgb(216, 76, 33)">
+                                &nbsp;Score: {{ student_response.sr_studentresponse_score}}%
+                            </span>
+                        </i>
+                        <br /><br />
+                        <i class="fa fa-rocket" style="font-size:42px;color:midnightblue">
+                            <span style="font-size:xx-large;">
+                                &nbsp; {{ correct_answers }} out of
+                                {{ total_questions }}  
+                            </span>
+                        </i>
+                        <br /><br />
+                        <i class="fa fa-check" style="font-size:42px;color:rgb(39, 126, 22)"></i>
+                        <span style="font-size:xx-large;color: rgb(39, 126, 22)">
+                            &nbsp; {{ correct_answers }} Correct Answers
+                        </span>
+                        </i>
+                        <br /><br />
+                        <i class="fa fa-close" style="font-size:42px;color:rgb(235, 29, 22)"></i>
+                        <span style="font-size:xx-large;color: rgb(235, 29, 22)">
+                            &nbsp; {{ wrong_answers }} Incorrect Answers
+                        </span>
+                        </i>
+                        <br />
+                        <hr>
+                        <span style="font-size:x-large;color: rgb(7, 102, 81)">
+                            &#128368;&nbsp;{{ student_response.sr_studentresponse_created_on}}
+                        </span>
+                    </div>
+                    <div class="col col-2">
+                        
+                        <!-- {{ df }}<br /> -->
+                        <!-- {{ student_response.sr_studentresponse_que_ans.questionid.length }}<br /> -->
+
+                        <!-- {% for key in student_response.sr_studentresponse_que_ans %} -->
+                        <!-- {{ key }}<br /> -->
+                        <!-- {{ key }}: -->
+                        <!-- <p id="demo"></p> -->
+
+                        <!-- {{ value.answer }} -->
+
+                        <!-- {% endfor %} -->
+                        <!-- <table class="table table-striped">
+                            <tr class="bg-info"> 
+                                <th>Question ID</th>
+                                <th>Answer ID</th>
+                            </tr>
+                            <tbody id="myTable"> 
+
+                            </tbody>
+                        </table> -->
+
+                    </div>
+                    <div class="col col-4 order-first">
+                        <img src="{% static '/logo.png' %}" alt="Learn With Fun" style="display: block;
+                            width: 100%;
+                            height: 100%;text-align: left;"><br />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+
+
+    </div>
+
+
+</main>
+{% endblock %}

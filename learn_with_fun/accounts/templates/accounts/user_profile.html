@@ -10,13 +10,12 @@
         margin: inherit;
         text-align: center;
     }
-
     .title {
-        color: aliceblue;
+        color: rgb(32, 56, 77);
     }
 </style>
 <!--https://bootsnipp.com/snippets/a6nml -->
-    <h1 class="text-center" style="color: rgb(51, 25, 35);">My Profile</h1>
+    <h1 class="text-center" style="color: rgb(6, 34, 58);">My Profile</h1>
 <div class="container">
     <br /><br />
     <div class="row">
@@ -27,47 +26,44 @@
             <img style="width: 100%;height: 100%;" src="{% static '/logo.png' %}" alt="Learn With Fun"><br />
         </div>
         <div class="col-md-5" style="background-color:rgb(241, 230, 230);">
-            <div class="card" style="background-color:rgb(70, 63, 69);">
-                <h1 class="title text-center">{{user.first_name }}
-                    {{user.last_name }}</h1><br/>
-                <table class="table table-borderless" style="color: aliceblue;font-size: x-large;">
-                    <tr>
-                        <td>
-                            Email Address:
-                        </td>
-                        <td>
-                            {{user.email }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Username:
-                        </td>
-                        <td>
-                            {{user.username }}
-                        </td>
-                    </tr>
- 
-                    {% if student %}
-                     <tr>
-                         <td>
-                             Address:
-                         </td>
-                         <td>
-                             {{student.s_student_city }}, {{student.s_student_province }},<br/>
-                             {{student.s_student_country }}
-                         </td>
-                     </tr>
-                     {% endif %}
-                </table>
-            </div>
+            <h1 class="title text-center">{{user.first_name }}
+                {{user.last_name }}</h1><br />
+            <table class="table table-borderless" style="color: rgb(6, 34, 58);font-size: x-large;">
+                <tr>
+                    <td>
+                        Email Address:
+                    </td>
+                    <td>
+                        {{user.email }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Username:
+                    </td>
+                    <td>
+                        {{user.username }}
+                    </td>
+                </tr>
+
+                {% if student %}
+                <tr>
+                    <td>
+                        Address:
+                    </td>
+                    <td>
+                        {{student.s_student_city }}, {{student.s_student_province }},<br />
+                        {{student.s_student_country }}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
         </div>
         <div class="col-md-2">
         </div>
 
     </div>
-</div>
-           
+               
 
 
-{% endblock %}
+    {% endblock %}

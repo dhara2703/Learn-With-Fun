@@ -20,9 +20,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- CSS File import -->
     <link rel="stylesheet" href="{% static '/styles.css' %}">
+
 
     <!-- Google Fonts import -->
 
@@ -65,15 +67,15 @@
                     Subjects
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'activity:subjects'  %}">Math</a>
-                    <a class="dropdown-item" href="{% url 'activity:subjects' %}">Science</a>
-                    <a class="dropdown-item" href="{% url 'activity:subjects' %}">Programming</a>
+                    <a class="dropdown-item" href="../../subjects/1">Math</a>
+                    <a class="dropdown-item" href="../../subjects/2">Science</a>
+                    <a class="dropdown-item" href="../../subjects/3">Programming</a>
                 </div>
             </li>
            
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-light" href="#">
+                <a class="nav-link text-light" href="{% url 'activity:report' %}">
                     Report
                 </a>
             </li>
@@ -84,8 +86,8 @@
                     Hi {{ user.first_name }}
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Your Profile</a>
-                    <!-- <a class="dropdown-item" href="{% url 'accounts:updateProfile' %}">Edit Profile</a> -->
+                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">My Profile</a>
+                    <a class="dropdown-item" href="{% url 'accounts:updateProfile' %}">Edit Profile</a>
                     <a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a>
                 </div>
             </li>

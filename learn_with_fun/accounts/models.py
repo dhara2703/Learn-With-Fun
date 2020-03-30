@@ -75,7 +75,11 @@ class Student(models.Model):
     def __str__(self):
         return self.s_student_user_id.first_name
 
-    def getId(self):return str(self.s_student_id)
+    def getname(self):
+            return self.s_student_user_id.first_name
+
+    def getId(self):
+        return str(self.s_student_id)
 
   
 
@@ -88,13 +92,50 @@ class StudentResponse(models.Model):
     sr_studentresponse_id = models.AutoField(primary_key=True, verbose_name='student response id')
     sr_studentresponse_student_id = models.ForeignKey('Student', on_delete=models.PROTECT, verbose_name='student')
     sr_studentresponse_quiz_id = models.ForeignKey('activity.Quiz', default=1, on_delete=models.PROTECT, verbose_name='Quiz')
-    sr_studentresponse_que_ans = JSONField(max_length=1000, null=True, verbose_name='Student Response Question And Answer')
+    sr_studentresponse_que_ans = JSONField(max_length=10000, null=True, verbose_name='Student Response Question And Answer')
     sr_studentresponse_score = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, verbose_name='student answer score')
     sr_studentresponse_created_on = models.DateTimeField(auto_now_add= True, verbose_name='student response created on')
 
     def __str__(self):
         return str(self.sr_studentresponse_id)
+
+    def outstanding(self):
+        if(sr_studentresponse_score >= 90.00):
+            return "Outstanding"
+        
+    def exemplary(self):
+        if(sr_studentresponse_score >= 85.00):
+            return "Exemplary"
+
+    def excellent(self):
+        if(sr_studentresponse_score >= 80.00):
+            return "Excellent"
+
+    def veryGood(self):
+        if(sr_studentresponse_score >= 75.00):
+            return "Very Good"
+
+    def good(self):
+        if(sr_studentresponse_score >= 70.00):
+            return "Good"
+
+    def satisfactory(self):
+        if(sr_studentresponse_score >= 65.00):
+            return "Satisfactory"
+        
+    def acceptable(self):
+        if(sr_studentresponse_score >= 60.00):
+            return "Acceptable"
+
+    def conditionalPass(self):
+        if(sr_studentresponse_score >= 50.00):
+            return "Conditional Pass"
+
+    def fail(self):
+        if(sr_studentresponse_score >= 0.00):
+            return "Fail"
+
 
 
     def save(self, *args, **kwargs):
@@ -105,12 +146,12 @@ class StudentResponse(models.Model):
         responsejson = self.sr_studentresponse_que_ans
         response = json.loads(responsejson)
 
-        answer = []
+        answers = []
         
         for answer in response:
-            answer.append(answer["answer"])
+            answers.append(answer["answer"])
         
-        return answer
+        return answers
 
     def getquestionid(self):
         responsejson = self.sr_studentresponse_que_ans

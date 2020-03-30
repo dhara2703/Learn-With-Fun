@@ -1,0 +1,61 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    setTimeout(function () {
+        $('#message').fadeOut('slow');
+    }, 3000);
+</script>
+<style>
+    .center {
+        margin: auto;
+        width: 60%;
+        border: 3px solid #73AD21;
+        padding: 10px;
+    }
+</style>
+
+
+<main role="main">
+    <section class="text-center">
+        <h1 class="display-4" style="color: navy;">Progress Report for {{ student.s_student_user_id.first_name }}</h1>
+    </section>
+    {% if student_responses %}
+    <table class="table table-hover">
+        <tr>
+            <th>Subject</th>
+            <th>Topic</th>
+            <th>Sub-Topic</th>
+            <th>Quiz</th>
+            <th>Score</th>
+            <th>Date</th>
+        </tr>
+        <tbody></tbody>
+        {% for student_response in student_responses %}
+        <tr>
+            <td>{{ student_response.sr_studentresponse_quiz_id.q_quiz_subtopic_id.st_subtopic_topic_id.t_topic_subject_id}}
+            </td>
+            <td>{{ student_response.sr_studentresponse_quiz_id.q_quiz_subtopic_id.st_subtopic_topic_id}}</td>
+            <td>{{ student_response.sr_studentresponse_quiz_id.q_quiz_subtopic_id}}</td>
+            <td>{{ student_response.sr_studentresponse_quiz_id}}</td>
+            <td>{{ student_response.sr_studentresponse_score}}</td>
+            <td>{{ student_response.sr_studentresponse_created_on}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="center">
+        <p><b>It seems like you haven't take any quizzes. You can take quiz in any subjects. 
+            Click here to see the subjects </p>
+            <br />
+            <br />
+            <br />
+            <br />
+            <a href="{% url 'activity:subjects' %}"><button class="button">View Subjects</button></a>
+    </div>
+    {% endif %}
+
+
+</main>
+{% endblock %}

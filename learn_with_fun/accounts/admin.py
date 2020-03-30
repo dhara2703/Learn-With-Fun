@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, Province, City, Student
+from .models import Country, Province, City, Student, StudentResponse
 
 class CountryAdmin(admin.ModelAdmin):
     list_display = ("c_country_id", "c_country_name", "c_country_isactive",)
@@ -44,6 +44,15 @@ class StudentAdmin(admin.ModelAdmin):
     search_fields = ("s_student_city", "s_student_country", "s_student_province",
                      "s_student_isactive",)
     list_per_page = 10
+    
+
+class StudentResponseAdmin(admin.ModelAdmin):
+    list_display = ("sr_studentresponse_id", "sr_studentresponse_student_id",
+                    "sr_studentresponse_quiz_id", "sr_studentresponse_que_ans", "sr_studentresponse_score", "sr_studentresponse_created_on",)
+    list_display_links = ("sr_studentresponse_id", "sr_studentresponse_student_id",)
+    list_filter = ("sr_studentresponse_quiz_id", "sr_studentresponse_student_id",)
+    search_fields = ("sr_studentresponse_quiz_id", "sr_studentresponse_student_id",)
+    list_per_page = 10
 
 
 # Register your models here.
@@ -51,3 +60,4 @@ admin.site.register(Country, CountryAdmin)
 admin.site.register(Province, ProvinceAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Student, StudentAdmin)
+admin.site.register(StudentResponse, StudentResponseAdmin)
