@@ -49,7 +49,7 @@ dj-static==0.0.6
 Django==2.2.6
 django-bootstrap-modal-forms==1.5.0
 django-crispy-forms==1.7.2
-django-filter==0.13.0
+django-filter==2.4.0
 django-jsonfield==1.4.0
 djangorestframework==3.10.2
 docutils==0.14
